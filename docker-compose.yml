@@ -1,9 +1,39 @@
 version: '3.8'
 
 services:
-  web:
+  database:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 550816
+      POSTGRES_DB: demo
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d demo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: spring-boot-app
+    restart: always
     ports:
       - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/demo
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 550816
+
+volumes:
+  db_data:

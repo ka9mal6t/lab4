@@ -1,35 +1,46 @@
 package com.example.demo.models;
 
-import com.example.demo.controllers.FlightDTO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
 @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@Entity
+@Table(name = "flight")
 public class Flight {
 
-    private Long id;
-    private String departure;
-    private String arrival;
-    private LocalDateTime departureDateTime;
-    private LocalDateTime arrivalDateTime;
-    private BigDecimal price;
-    private String flightNumber;
-    private LocalDateTime creationDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "flight_id")
+    private Integer flightId;
 
-    public Flight(Long id, FlightDTO newFlight, LocalDateTime creationDate) {
-        this.id = id;
-        this.departure = newFlight.getDeparture();
-        this.arrival = newFlight.getArrival();
-        this.departureDateTime = newFlight.getDepartureDateTime();
-        this.arrivalDateTime = newFlight.getArrivalDateTime();
-        this.price = newFlight.getPrice();
-        this.flightNumber = newFlight.getFlightNumber();
-        this.creationDate = creationDate;
-    }
+    @Column(name = "departure_time")
+    private LocalDateTime departureDateTime;
+
+    @Column(name = "arrival_time")
+    private LocalDateTime arrivalDateTime;
+
+    @Column(name = "flight_number")
+    private int flightNumber;
+
+    @Column(name = "price")
+    private double price;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "departure_city_id")
+    private City departureCity;
+
+    @ManyToOne
+    @JoinColumn(name = "arrival_city_id")
+    private City arrivalCity;
+
 
 }
 
