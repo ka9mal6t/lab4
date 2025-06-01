@@ -5,3 +5,6 @@ metadata:
 spec:
   type: ExternalName
   externalName: database-1.c36m6uy4iu7b.eu-north-1.rds.amazonaws.com
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION_MS}

@@ -72,6 +72,10 @@ spec:
               value: postgres
             - name: SPRING_DATASOURCE_PASSWORD
               value: postgres
+            - name: JWT_SECRET
+              value: "8tC0wUPnhnmX0n+yExkTiA1zU8VQ0zXb9CQYDRv+K0c="
+            - name: JWT_EXPIRATION_MS
+              value: "86400000"
 ---
 # Spring Boot App Service
 apiVersion: v1
